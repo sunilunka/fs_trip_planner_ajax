@@ -37,4 +37,7 @@ $(document).ready(function() {
     daysModule.removeAttraction(findByTypeAndId(type, id));
   });
 
+
+
+
 });

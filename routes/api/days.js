@@ -9,7 +9,7 @@ var Promise = require('bluebird');
 
 daysRouter.get("/api/days", function(req, res, next){
   Day.find({}, function(err, days){
-    res.send(days);
+    res.json(days);
   });
 
 })
@@ -94,5 +94,22 @@ daysRouter.put("/api/days/:number/activities", function(req, res, next){
   })
  })
 });
+
+
+daysRouter.put("/api/days/:number/currentDay", function(req, res, next){
+  Day.find({}).exec().then(
+    function (days) {
+      console.log(days)
+      for (var i = 0; i < days.length; i++ )  {
+        days[i][currentDay] = false;
+        days[i].save()
+      }
+  }).then(function () {
+    Day.where({number: req.params.number}).update({currentDay: true}, function (err, day){
+  res.send("message")
+  }) 
+})
+})
+
 
 module.exports = daysRouter;
