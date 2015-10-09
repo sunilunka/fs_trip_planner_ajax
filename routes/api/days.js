@@ -37,37 +37,62 @@ daysRouter.get("/api/days/:number", function(req, res, next){
   })
 });
 
-daysRouter.post("/api/days/:number", function(req, res, next){
 
-});
 
 // Deleting specific day from database
-daysRouter.delete("api/days/:number", function(req, res, next){
-
+daysRouter.delete("/api/days/:number", function(req, res, next){
+  Day.remove({number: req.params.number}, function (err, day) {
+    res.send("day deleted")})
 });
 
-daysRouter.post("api/days/:number/hotel", function(req, res, next){
-
+daysRouter.post("/api/days/:number/hotel", function(req, res, next){
+  Day.where({number: req.params.number}).update({hotel: req.body.hotel}, function (err, day){
+    res.send("hotel added")
+  })
 });
 
-daysRouter.delete("api/days/:number/hotel", function(req, res, next){
-
+daysRouter.put("/api/days/:number/hotel", function(req, res, next){
+  Day.where({number: req.params.number}).update({hotel: null}, function (err, day){
+    res.send("hotel " + req.body.hotel + " removed")
+  })
 });
 
-daysRouter.post("api/days/:number/restuarants", function(req, res, next){
-
+daysRouter.post("/api/days/:number/restaurants", function(req, res, next){
+  Day.findOne({number: req.params.number}, function (err, day) {
+    day.restaurants.addToSet(req.body.restaurant)
+    day.save(function(err, data){
+      res.send(data);
+    })
+ })
 });
 
-daysRouter.delete("api/days/:number/restaurants", function(req, res, next){
-
+daysRouter.put("/api/days/:number/restaurants", function(req, res, next){
+  Day.findOne({number: req.params.number}, function (err, day) {
+    var restIndex = day.restaurants.indexOf(req.body.restaurant)
+    day.restaurants.splice(restIndex,1)
+    day.save(function(err, data){
+      res.send(data);
+  })
+ })
 });
 
-daysRouter.post("api/days/:number/activities", function(req, res, next){
-
+daysRouter.post("/api/days/:number/activities", function(req, res, next){
+  Day.findOne({number: req.params.number}, function (err, day) {
+    day.activities.addToSet(req.body.activity)
+    day.save(function(err, data){
+      res.send(data);
+    })
+ })
 });
 
-daysRouter.delete("api/days/:number/activities", function(req, res, next){
-
+daysRouter.put("/api/days/:number/activities", function(req, res, next){
+  Day.findOne({number: req.params.number}, function (err, day) {
+    var actIndex = day.activities.indexOf(req.body.activity)
+    day.activities.splice(actIndex,1)
+    day.save(function(err, data){
+      res.send(data);
+  })
+ })
 });
 
 module.exports = daysRouter;
