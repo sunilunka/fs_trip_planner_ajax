@@ -7,6 +7,13 @@ var Restaurant = models.Restaurant;
 var Activity = models.Activity;
 var Promise = require('bluebird');
 
+//  This is for development purposes only.
+
+Day.remove({}).exec();
+
+
+// REMOVE THE ABOVE COMMAND AFTER DEVELOPMENT.
+
 daysRouter.get("/api/days", function(req, res, next){
   Day.find({}, function(err, days){
     res.json(days);

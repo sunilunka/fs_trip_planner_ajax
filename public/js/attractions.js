@@ -1,6 +1,7 @@
 'use strict';
 /* global $ daysModule all_hotels all_restaurants all_activities */
 
+
 $(document).ready(function() {
 
   var attractionsByType = {
@@ -27,6 +28,7 @@ $(document).ready(function() {
         type = $button.data('type'),
         attractions = attractionsByType[type],
         id = $button.siblings('select').val();
+        ajajModule.addHotel($(".current-day").text(), $button);
     daysModule.addAttraction(findByTypeAndId(type, id));
   });
 
@@ -34,9 +36,9 @@ $(document).ready(function() {
     var $button = $(this),
         type = $button.data('type'),
         id = $button.data('id');
+        ajajModule.removeHotel($(".current-day").text(), $button);
     daysModule.removeAttraction(findByTypeAndId(type, id));
   });
-
 
 
 
